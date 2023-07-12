@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     
     Route::group(['middleware'=>['admin']],function(){
         Route::get('dashboard','AdminController@dashboard');  
+        Route::get('logout', 'AdminController@logout');
     });
     
 });
