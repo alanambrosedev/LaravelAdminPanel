@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
+use Hash;
+use App\Models\Admin;
 
 class AdminController extends Controller
 {
@@ -30,7 +32,7 @@ class AdminController extends Controller
             if(Auth::guard('admin')->attempt(['email'=>$data['email'],'password'=>$data['password']])){
                 return redirect("admin/dashboard");
             }else{
-                return redirect()->back()->with("error_message","Invalid Email or Password!");
+                return redirect()->back()->with("error_message","Invalid email or password!");
             }
         }
         return view('admin.login');
@@ -39,5 +41,33 @@ class AdminController extends Controller
     public function logout(){
         Auth::guard('admin')->logout();
         return redirect('admin/login');
+    }
+
+    public function updatePassword(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            if (Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)) {
+                if($data['new_pwd']==$data['confirm_pwd']){
+                    Admin::where('id',Auth::guard('admin')->user()->id)->update(['password'=>bcrypt($data['new_pwd'])]);
+                    return redirect()->back()->with('success_message','Password has been updated successfully!');
+                }else{
+                    return redirect()->back()->with('error_message','New password & re-type password are incorrect!');
+                }
+            } else {
+                return redirect()->back()->with('error_message','Your current password is incorrect!');
+            }
+            
+        }
+        return view('admin.update_password');
+    }
+
+    public function checkCurrentPassword(Request $request){
+        $data = $request->all();
+        if (Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)) {
+            return "true";
+        } else {
+            return "false";
+        }
+        
     }
 }
