@@ -55,8 +55,7 @@ class AdminController extends Controller
                 }
             } else {
                 return redirect()->back()->with('error_message','Your current password is incorrect!');
-            }
-            
+            }      
         }
         return view('admin.update_password');
     }
@@ -68,6 +67,28 @@ class AdminController extends Controller
         } else {
             return "false";
         }
-        
+    }
+
+    public function updateDetails(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            $rules = [
+                'admin_name' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+                'admin_mobile' => 'required|numeric|digits:10|min:10'
+            ];
+            $customMessages = [
+                'admin_name.required' => "Name is required",
+                'admin_name.regex' => "Valid name is required",
+                'admin_name.max' => "Valid name is required",
+                'admin_mobile.required' => "Mobile is required",
+                'admin_mobile.numeric' => "Vaild mobile is required",
+                'admin_mobile.digits' => "Vaild mobile is required",
+            ];
+            $this->validate($request,$rules,$customMessages);
+            Admin::where('email',Auth::guard('admin')->user()->email)->update(['name'=>$data['admin_name'],'mobile'=>$data['admin_mobile']]);
+            return redirect()->back()->with('success_message','Admin details has been updated successfully!');
+        }
+        return view('admin.update_details');
     }
 }
