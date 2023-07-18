@@ -21,7 +21,6 @@ class AdminController extends Controller
     public function login(Request $request){
         if($request->isMethod('post')){
             $data = $request->all();
-            // echo "<pre>"; print_r($data); die;
             $rules = [
                 'email' => 'required|email|max:255',
                 'password' => 'required|max:30'
@@ -77,7 +76,6 @@ class AdminController extends Controller
         Session::put('page','update-details');
         if($request->isMethod('post')){
             $data = $request->all();
-            // echo "<pre>"; print_r($data); die;
             $rules = [
                 'admin_name' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
                 'admin_mobile' => 'required|numeric|digits:10',
