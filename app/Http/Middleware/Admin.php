@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
 
 class Admin
 {
@@ -16,9 +16,10 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('admin')->check()){
+        if (! Auth::guard('admin')->check()) {
             return redirect('/admin/login');
         }
+
         return $next($request);
     }
 }

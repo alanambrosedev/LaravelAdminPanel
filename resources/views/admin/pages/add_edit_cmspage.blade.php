@@ -40,6 +40,15 @@
           <div class="card-body">
             <div class="row">
               <div class="col-12">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
                <!-- form start -->
               <form name="cmsForm" id="cmsForm" action="{{ url('admin/add-edit-cms-page') }}" method="post">@csrf
                 <div class="card-body">
@@ -52,19 +61,19 @@
                     <input type="text" class="form-control" id="url" name="url" placeholder="Enter Page Url">
                   </div>
                   <div class="form-group">
-                    <label for="description">Description</label>
+                    <label for="description">Description*</label>
                     <textarea class="form-control" rows="3" id="description" name="description" placeholder="Enter Description"></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="meta_title">Meta Title*</label>
+                    <label for="meta_title">Meta Title</label>
                     <input type="text" class="form-control" id="meta_title" name="meta_title" placeholder="Enter Meta Title">
                   </div>
                   <div class="form-group">
-                    <label for="meta_description">Meta Description*</label>
+                    <label for="meta_description">Meta Description</label>
                     <input type="text" class="form-control" id="meta_description" name="meta_description" placeholder="Enter Meta Description">
                   </div>
                   <div class="form-group">
-                    <label for="meta_keywords">Meta Keywords*</label>
+                    <label for="meta_keywords">Meta Keywords</label>
                     <input type="text" class="form-control" id="meta_keywords" name="meta_keywords" placeholder="Enter Meta Keywords">
                   </div>
                 </div>

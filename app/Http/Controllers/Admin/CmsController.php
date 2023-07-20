@@ -13,8 +13,8 @@ class CmsController extends Controller
      */
     public function index()
     {
-        $cmsPages=CmsPage::get()->toArray();
-        // dd($cmsPages);
+        $cmsPages = CmsPage::get()->toArray();
+
         return view('admin.pages.cms_pages')->with(compact('cmsPages'));
     }
 
@@ -45,13 +45,43 @@ class CmsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id=null)
+    public function edit(Request $request, $id = null)
     {
-        if($id==""){
-            $title="Add CMS Page";
-        }else{
-            $title="Edit CMS Page";
+        if ($id == '') {
+            $title = 'Add CMS Page';
+            $cmsPage = new CmsPage;
+            $message = 'CMS Page added successfully';
+        } else {
+            $title = 'Edit CMS Page';
         }
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            //CMS page validations
+            $rules = [
+                'title' => 'required',
+                'url' => 'required',
+                'description' => 'required',
+            ];
+            $customMessages = [
+                'title.required' => 'Page title is required',
+                'url.required' => '{Page url is required',
+                'description.required' => 'Page description is required',
+            ];
+            $this->validate($request, $rules, $customMessages);
+
+            $cmsPage->title = $data['title'];
+            $cmsPage->url = $data['url'];
+            $cmsPage->description = $data['description'];
+            $cmsPage->meta_title = $data['meta_title'];
+            $cmsPage->meta_description = $data['meta_description'];
+            $cmsPage->meta_keywords = $data['meta_keywords'];
+            $cmsPage->status = 1;
+            $cmsPage->save();
+
+            return redirect('admin/cms-pages')->with('success_message', $message);
+
+        }
+
         return view('admin.pages.add_edit_cmspage')->with(compact('title'));
     }
 
@@ -62,16 +92,16 @@ class CmsController extends Controller
     {
         if ($request->ajax()) {
             $data = $request->all();
-            if($data['status']=='Active'){
+            if ($data['status'] == 'Active') {
                 $status = 0;
-            }else{
+            } else {
                 $status = 1;
             }
-            CmsPage::where('id',$data['page_id'])->update(['status'=>$status]);
-            return response()->json(['status'=>$status,'page_id'=>$data['page_id']]);
+            CmsPage::where('id', $data['page_id'])->update(['status' => $status]);
+
+            return response()->json(['status' => $status, 'page_id' => $data['page_id']]);
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

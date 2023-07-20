@@ -16,21 +16,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
-    Route::match(['get','post'],'login','AdminController@login');
-    
-    Route::group(['middleware'=>['admin']],function(){
-        Route::get('dashboard','AdminController@dashboard');  
-        Route::match(['get','post'],'update-password', 'AdminController@updatePassword');
-        Route::match(['get','post'],'update-details', 'AdminController@updateDetails');
-        Route::post('check-current-password','AdminController@checkCurrentPassword');
+Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
+    Route::match(['get', 'post'], 'login', 'AdminController@login');
+
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('dashboard', 'AdminController@dashboard');
+        Route::match(['get', 'post'], 'update-password', 'AdminController@updatePassword');
+        Route::match(['get', 'post'], 'update-details', 'AdminController@updateDetails');
+        Route::post('check-current-password', 'AdminController@checkCurrentPassword');
         Route::get('logout', 'AdminController@logout');
     });
-    
+
     //Display CMS pages (CRUD-READ)
-    Route::get('cms-pages','CmsController@index');
-    Route::post('update-cms-page-status','CmsController@update');
-    Route::match(['get','post'],'add-edit-cms-page','CmsController@edit');
+    Route::get('cms-pages', 'CmsController@index');
+    Route::post('update-cms-page-status', 'CmsController@update');
+    Route::match(['get', 'post'], 'add-edit-cms-page', 'CmsController@edit');
 
 });
-    
