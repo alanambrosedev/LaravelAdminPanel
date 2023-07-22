@@ -50,31 +50,31 @@
                 </div>
               @endif
                <!-- form start -->
-              <form name="cmsForm" id="cmsForm" action="{{ url('admin/add-edit-cms-page') }}" method="post">@csrf
+              <form name="cmsForm" id="cmsForm" @if(empty($cmsPage['id'])) action="{{ url('admin/add-edit-cms-page') }}" @else action="{{ url('admin/add-edit-cms-page/'.$cmsPage['id']) }}" @endif method="post">@csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="title">Title*</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter Page Title" @if(!empty($cmsPage['title'])) value="{{ $cmsPage['title'] }}" @endif>
                   </div>
                   <div class="form-group">
                     <label for="url">URL*</label>
-                    <input type="text" class="form-control" id="url" name="url" placeholder="Enter Page Url">
+                    <input type="text" class="form-control" id="url" name="url" placeholder="Enter Page Url" @if(!empty($cmsPage['url'])) value="{{ $cmsPage['url'] }}" @endif>
                   </div>
                   <div class="form-group">
                     <label for="description">Description*</label>
-                    <textarea class="form-control" rows="3" id="description" name="description" placeholder="Enter Description"></textarea>
+                    <textarea class="form-control" rows="3" id="description" name="description" placeholder="Enter Description">@if(!empty($cmsPage['description'])){{ $cmsPage['description'] }} @endif</textarea>
                   </div>
                   <div class="form-group">
                     <label for="meta_title">Meta Title</label>
-                    <input type="text" class="form-control" id="meta_title" name="meta_title" placeholder="Enter Meta Title">
+                    <input type="text" class="form-control" id="meta_title" name="meta_title" placeholder="Enter Meta Title" @if(!empty($cmsPage['meta_title'])) value="{{ $cmsPage['meta_title'] }}" @endif>
                   </div>
                   <div class="form-group">
                     <label for="meta_description">Meta Description</label>
-                    <input type="text" class="form-control" id="meta_description" name="meta_description" placeholder="Enter Meta Description">
+                    <input type="text" class="form-control" id="meta_description" name="meta_description" placeholder="Enter Meta Description" @if(!empty($cmsPage['meta_description'])) value="{{ $cmsPage['meta_description'] }}" @endif>
                   </div>
                   <div class="form-group">
                     <label for="meta_keywords">Meta Keywords</label>
-                    <input type="text" class="form-control" id="meta_keywords" name="meta_keywords" placeholder="Enter Meta Keywords">
+                    <input type="text" class="form-control" id="meta_keywords" name="meta_keywords" placeholder="Enter Meta Keywords" @if(!empty($cmsPage['meta_keywords'])) value="{{ $cmsPage['meta_keywords'] }}" @endif>
                   </div>
                 </div>
                 <!-- /.card-body -->
