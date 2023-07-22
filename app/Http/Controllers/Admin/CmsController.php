@@ -14,7 +14,7 @@ class CmsController extends Controller
      */
     public function index()
     {
-        Session::put('page','cms-pages');
+        Session::put('page', 'cms-pages');
         $cmsPages = CmsPage::get()->toArray();
 
         return view('admin.pages.cms_pages')->with(compact('cmsPages'));
@@ -49,7 +49,7 @@ class CmsController extends Controller
      */
     public function edit(Request $request, $id = null)
     {
-        Session::put('page','cms-pages');
+        Session::put('page', 'cms-pages');
         if ($id == '') {
             $title = 'Add CMS Page';
             $cmsPage = new CmsPage;
@@ -87,7 +87,7 @@ class CmsController extends Controller
 
         }
 
-        return view('admin.pages.add_edit_cms_page')->with(compact('title','cmsPage'));
+        return view('admin.pages.add_edit_cms_page')->with(compact('title', 'cmsPage'));
     }
 
     /**
@@ -114,7 +114,8 @@ class CmsController extends Controller
     public function destroy($id)
     {
         //Delete CMS Page
-        CmsPage::where('id',$id)->delete();
-        return redirect()->back()->with('success_message','CMS Page Deleted Successfully');
+        CmsPage::where('id', $id)->delete();
+
+        return redirect()->back()->with('success_message', 'CMS Page Deleted Successfully');
     }
 }
