@@ -73,6 +73,7 @@
 <script>
   $(function () {
     $("#cms_pages").DataTable();
+    $("#subadmins").DataTable();
   });
 </script>
 <!-- Select2 -->
