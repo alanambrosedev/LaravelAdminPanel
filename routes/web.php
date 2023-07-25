@@ -35,4 +35,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     //Subadmins
     Route::get('subadmins','AdminController@subAdmins');
+    Route::post('update-subadmin-status', 'AdminController@updateSubAdminStatus');
+    Route::get('delete-subadmin/{id?}', 'AdminController@deleteSubadmin');
+
 });

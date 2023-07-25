@@ -62,7 +62,22 @@
                       <td>{{ $subadmin->type }}</td>
                       <td>{{ date("F j, Y, g:i a", strtotime($subadmin->created_at)) }}</td>
                       <td>
-                      </td>
+                        @if($subadmin->status==1)
+                        <a class="updateSubadminStatus" id="subadmin-{{ $subadmin->id }}" subadmin_id="{{ $subadmin->id }}" style='color:#3f6ed3' href="javascript:void(0)">
+                            <i class="fas fa-solid fa-toggle-on" status="Active"></i>
+                        </a>
+                        @else
+                        <a class="updateSubadminStatus" id="subadmin-{{ $subadmin->id }}" subadmin_id="{{ $subadmin->id }}" style="color:gray" href="javascript:void(0)">
+                            <i class="fas fa-solid fa-toggle-off" status="Inactive"></i>
+                        </a>
+                        @endif
+                        &nbsp;&nbsp;
+                        <a style="color:#3f6ed3;" class="confirmDelete" name="subadmin" title="Delete Sub Admin" href="javascript:void(0)"
+                            record="subadmin" recordid={{ $subadmin->id }}>
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                    
                     </tr>
                     @endforeach
                     </tbody>
