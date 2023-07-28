@@ -162,4 +162,22 @@ class AdminController extends Controller
         return redirect()->back()->with('success_message', 'Sub Admin Deleted Successfully');
     }
 
+    public function addEditSubAdmin(Request $request,$id=null)
+    {
+        if($id=""){
+            $title = "Add Subadmin";
+            $subadmindata = new Admin;
+            $message = "Subadmin added successfully!";
+        }else{
+            $title = "Edit Subadmin";
+            $subadmindata = Admin::find($id);
+            $message = "Subadmin updated successfully!";
+        }
+        if($request->isMethod('post')){
+            $data = $request->all();
+            echo "<pre>"; print_r($data); die;
+        }
+        return  view('admin.subadmins.add_edit_subadmin')->with(compact('title','subadmindata'));
+    }
+
 }

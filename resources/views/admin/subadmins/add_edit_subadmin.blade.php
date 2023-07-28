@@ -50,31 +50,32 @@
                 </div>
               @endif
                <!-- form start -->
-              <form name="cmsForm" id="cmsForm" @if(empty($cmsPage['id'])) action="{{ url('admin/add-edit-cms-page') }}" @else action="{{ url('admin/add-edit-cms-page/'.$cmsPage['id']) }}" @endif method="post">@csrf
+              <form name="subadminForm" id="subadminForm" @if(empty($subadmindata['id'])) action="{{ url('admin/add-edit-subadmin') }}" @else action="{{ url('admin/add-edit-subadmin/'.$subadmindata['id']) }}" @endif method="post" enctype="multipart/form-data">@csrf
                 <div class="card-body">
                   <div class="form-group col-md-6">
-                    <label for="title">Title*</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter Page Title" @if(!empty($cmsPage['title'])) value="{{ $cmsPage['title'] }}" @endif>
+                    <label for="name">Name*</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Subadmin Name" @if(!empty($subadmindata['name'])) value="{{ $subadmindata['name'] }}" @endif>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="url">URL*</label>
-                    <input type="text" class="form-control" id="url" name="url" placeholder="Enter Page Url" @if(!empty($cmsPage['url'])) value="{{ $cmsPage['url'] }}" @endif>
+                    <label for="mobile">Mobile*</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile" @if(!empty($subadmindata['mobile'])) value="{{ $subadmindata['mobile'] }}" @endif>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="description">Description*</label>
-                    <textarea class="form-control" rows="3" id="description" name="description" placeholder="Enter Description">@if(!empty($cmsPage['description'])){{ $cmsPage['description'] }} @endif</textarea>
+                    <label for="email">Email</label>
+                    <input @if(!empty($subadmindata['id'])) disabled="" @else required="" @endif type="email" class="form-control" id="email" name="email" placeholder="Enter Email" @if(!empty($subadmindata['email'])) value="{{ $subadmindata['email'] }}" @endif>
+                  </div>
+                  
+                  <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" @if(!empty($subadmindata['password'])) value="{{ $subadmindata['password'] }}" @endif>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="meta_title">Meta Title</label>
-                    <input type="text" class="form-control" id="meta_title" name="meta_title" placeholder="Enter Meta Title" @if(!empty($cmsPage['meta_title'])) value="{{ $cmsPage['meta_title'] }}" @endif>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="meta_description">Meta Description</label>
-                    <input type="text" class="form-control" id="meta_description" name="meta_description" placeholder="Enter Meta Description" @if(!empty($cmsPage['meta_description'])) value="{{ $cmsPage['meta_description'] }}" @endif>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="meta_keywords">Meta Keywords</label>
-                    <input type="text" class="form-control" id="meta_keywords" name="meta_keywords" placeholder="Enter Meta Keywords" @if(!empty($cmsPage['meta_keywords'])) value="{{ $cmsPage['meta_keywords'] }}" @endif>
+                    <label for="image">Photo</label>
+                    <input type="file" class="form-control" id="image" name="image" placeholder="Image">
+                    @if(!empty($subadmindata['image']))
+                      <a target="_blank" href="{{ url('admin/images/photos/'.$subadmindata['image']) }}">View Photo</a>
+                      <input type="hidden" name="current_image" value="{{ $subadmindata['image'] }}">
+                    @endif
                   </div>
                 </div>
                 <!-- /.card-body -->
