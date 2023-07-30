@@ -135,7 +135,8 @@ class AdminController extends Controller
     public function subAdmins()
     {
         Session::put('page', 'subadmins');
-        $subAdmins = Admin::where('type','subadmin')->get();
+        $subAdmins = Admin::where('type', 'subadmin')->get();
+
         return view('admin.subadmins.subadmins')->with(compact('subAdmins'));
     }
 
@@ -162,24 +163,24 @@ class AdminController extends Controller
         return redirect()->back()->with('success_message', 'Sub Admin Deleted Successfully');
     }
 
-    public function addEditSubAdmin(Request $request,$id=null)
+    public function addEditSubAdmin(Request $request, $id = null)
     {
-        if($id==""){
-            $title = "Add Subadmin";
+        if ($id == '') {
+            $title = 'Add Subadmin';
             $subadmindata = new Admin;
-            $message = "Subadmin added successfully!";
-        }else{
-            $title = "Edit Subadmin";
+            $message = 'Subadmin added successfully!';
+        } else {
+            $title = 'Edit Subadmin';
             $subadmindata = Admin::find($id);
-            $message = "Subadmin updated successfully!";
+            $message = 'Subadmin updated successfully!';
         }
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $data = $request->all();
-            
-            if($id==""){
-                $subadminCount = Admin::where('email',$data['email'])->count();
-                if($subadminCount>0){
-                    return redirect()->back()->with('error_message','Subadmin already exists!');
+
+            if ($id == '') {
+                $subadminCount = Admin::where('email', $data['email'])->count();
+                if ($subadminCount > 0) {
+                    return redirect()->back()->with('error_message', 'Subadmin already exists!');
                 }
             }
             //Subadmin validation
@@ -216,19 +217,29 @@ class AdminController extends Controller
             $subadmindata->image = $imageName;
             $subadmindata->name = $data['name'];
             $subadmindata->mobile = $data['mobile'];
-            if($id==""){
+            if ($id == '') {
                 $subadmindata->email = $data['email'];
-                $subadmindata->type ='subadmin';
+                $subadmindata->type = 'subadmin';
             }
-            if($data['password']!=""){
+            if ($data['password'] != '') {
                 $subadmindata->password = bcrypt($data['password']);
             }
             $subadmindata->save();
-            
-            return redirect('admin/subadmins')->with('success_message',$message);
-            
+
+            return redirect('admin/subadmins')->with('success_message', $message);
+
         }
-        return  view('admin.subadmins.add_edit_subadmin')->with(compact('title','subadmindata'));
+
+        return view('admin.subadmins.add_edit_subadmin')->with(compact('title', 'subadmindata'));
     }
 
+    public function updateRole($id,Request $request)
+    {
+        $title = "Update Subadmin Roles/Permission";
+        if($request->isMethod('post')){
+            $data = $request->all();
+            echo "<pre>"; print_r($data); die;
+        }
+        return view('admin.subadmins.update_roles')->with(compact('title','id'));
+    }
 }

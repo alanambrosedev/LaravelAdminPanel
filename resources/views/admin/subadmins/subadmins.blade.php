@@ -79,6 +79,9 @@
                             record="subadmin" recordid={{ $subadmin->id }}>
                             <i class="fas fa-trash"></i>
                         </a>
+                        &nbsp;&nbsp;
+                        <a style="color:#3f6ed3;" href="{{ url('admin/update-role/'.$subadmin['id']) }}">
+                          <i class="fas fa-unlock"></i>
                     </td>
                     
                     </tr>
