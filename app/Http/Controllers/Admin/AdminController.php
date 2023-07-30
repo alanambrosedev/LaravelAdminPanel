@@ -164,7 +164,7 @@ class AdminController extends Controller
 
     public function addEditSubAdmin(Request $request,$id=null)
     {
-        if($id=""){
+        if($id==""){
             $title = "Add Subadmin";
             $subadmindata = new Admin;
             $message = "Subadmin added successfully!";
@@ -175,7 +175,58 @@ class AdminController extends Controller
         }
         if($request->isMethod('post')){
             $data = $request->all();
-            echo "<pre>"; print_r($data); die;
+            
+            if($id==""){
+                $subadminCount = Admin::where('email',$data['email'])->count();
+                if($subadminCount>0){
+                    return redirect()->back()->with('error_message','Subadmin already exists!');
+                }
+            }
+            //Subadmin validation
+            $rules = [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+                'mobile' => 'required|numeric|digits:10',
+                'image' => 'image',
+            ];
+            $customMessages = [
+                'name.required' => 'Name is required',
+                'name.regex' => 'Valid name is required',
+                'name.max' => 'Valid name is required',
+                'mobile.required' => 'Mobile is required',
+                'mobile.numeric' => 'Vaild mobile is required',
+                'mobile.digits' => 'Vaild mobile is required',
+                'image.image' => 'Vaild image is required',
+            ];
+            $this->validate($request, $rules, $customMessages);
+            //Upload subadmin image
+            if ($request->hasFile('image')) {
+                $imageTmp = $request->file('image');
+                if ($imageTmp->isValid()) {
+                    $extension = $imageTmp->getClientOriginalExtension();
+                    $imageName = rand(111, 99999).'.'.$extension;
+                    $imagePath = 'admin/images/photos/'.$imageName;
+                    Image::make($imageTmp)->save($imagePath);
+                }
+            } elseif (! empty($data['current_image'])) {
+                $imageName = $data['current_image'];
+            } else {
+                $imageName = '';
+            }
+
+            $subadmindata->image = $imageName;
+            $subadmindata->name = $data['name'];
+            $subadmindata->mobile = $data['mobile'];
+            if($id==""){
+                $subadmindata->email = $data['email'];
+                $subadmindata->type ='subadmin';
+            }
+            if($data['password']!=""){
+                $subadmindata->password = bcrypt($data['password']);
+            }
+            $subadmindata->save();
+            
+            return redirect('admin/subadmins')->with('success_message',$message);
+            
         }
         return  view('admin.subadmins.add_edit_subadmin')->with(compact('title','subadmindata'));
     }

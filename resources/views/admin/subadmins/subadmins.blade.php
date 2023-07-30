@@ -72,6 +72,9 @@
                         </a>
                         @endif
                         &nbsp;&nbsp;
+                        <a style="color:#3f6ed3;" href="{{ url('admin/add-edit-subadmin/'.$subadmin['id']) }}">
+                          <i class="fas fa-edit"></i>
+                        &nbsp;&nbsp;
                         <a style="color:#3f6ed3;" class="confirmDelete" name="subadmin" title="Delete Sub Admin" href="javascript:void(0)"
                             record="subadmin" recordid={{ $subadmin->id }}>
                             <i class="fas fa-trash"></i>
