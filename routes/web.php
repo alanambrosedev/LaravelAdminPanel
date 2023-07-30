@@ -38,6 +38,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::post('update-subadmin-status', 'AdminController@updateSubAdminStatus');
     Route::match(['get', 'post'], 'add-edit-subadmin/{id?}', 'AdminController@addEditSubAdmin');
     Route::get('delete-subadmin/{id?}', 'AdminController@deleteSubadmin');
-    Route::match(['get','post'],'update-role/{id}','AdminController@updateRole');
+    Route::match(['get', 'post'], 'update-role/{id}', 'AdminController@updateRole');
 
 });

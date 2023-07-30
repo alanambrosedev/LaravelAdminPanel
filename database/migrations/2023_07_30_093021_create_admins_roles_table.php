@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_roles', function (Blueprint $table) {
+        Schema::create('admins_roles', function (Blueprint $table) {
             $table->id();
-            $table->integer('admin_id');
+            $table->integer('subadmin_id');
             $table->string('module');
             $table->string('view_access');
             $table->string('edit_access');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin_roles');
+        Schema::dropIfExists('admins_roles');
     }
 };
